@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: myapp
+  name: demo1
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: "infra"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws-cn:iam::523497193792:server-certificate/wildcard_supor_com_2022
+    alb.ingress.kubernetes.io/subnets: subnet-034facf09eae206fe, subnet-02e4e614104438076, subnet-0bfc5dff48405109f
+spec:
+  rules:
+    - host: cdp-demo1.supor.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo1
+                port:
+                  number: 1323
