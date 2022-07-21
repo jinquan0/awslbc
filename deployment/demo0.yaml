@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "demo0"
+  namespace: myapp
+  labels:
+    logging: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "demo0"
+  template:
+    metadata:
+      labels:
+        app: "demo0"
+        logging: "true"
+    spec:
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - name: datavol1
+        persistentVolumeClaim:
+          claimName: efs-pvc-demo0
+      imagePullSecrets:
+      - name: docker.io
+      containers:
+      - name: "demo0"
+        image: docker.io/jinquan711/solar-system:1.2
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: datavol1
+          mountPath: /app/assets   ### echo-server location
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "50m"
+          limits:
+            memory: "200Mi"
+            cpu: "100m"
+        ports:
+        - name: web
+          containerPort: 1323
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: demo0
+ namespace: myapp
+spec:
+  selector:
+    app: demo0
+  ports:
+  - name: web
+    port: 1323
+    protocol: TCP
+    targetPort: 1323
