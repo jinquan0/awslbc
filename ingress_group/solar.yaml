@@ -10,7 +10,7 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/group.name: "infra"
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws-cn:iam::523497193792:server-certificate/wildcard_supor_com_2022
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws-cn:iam::************:server-certificate/wildcard_supor_com_2022
     alb.ingress.kubernetes.io/subnets: subnet-034fac******206fe, subnet-02e4e6******38076, subnet-0bfc5d******5109f
 spec:
   rules:
